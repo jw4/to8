@@ -67,7 +67,12 @@ func main() {
 				log.Printf("error create charset reader for %q: %v", name, err)
 				continue
 			}
-			out, err := os.Create(newName)
+			fi, err := os.Stat(name)
+			if err != nil {
+				log.Printf("error getting file info %q: %v", name, err)
+				continue
+			}
+			out, err := os.OpenFile(newName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, fi.Mode()&os.ModePerm)
 			if err != nil {
 				log.Printf("error create working file %q: %v", newName, err)
 				continue
