@@ -80,7 +80,7 @@ func main() {
 			if verbose {
 				log.Printf("Converting %q (%s)", name, ct)
 			}
-			if _, err = io.Copy(out, conv); err != nil {
+			if _, err = io.Copy(NewSkipBOMWriter(out), conv); err != nil {
 				log.Printf("error convert %q to working file %q: %v", name, newName, err)
 				continue
 			}
